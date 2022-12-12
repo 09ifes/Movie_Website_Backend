@@ -40,6 +40,15 @@ public interface FilmRepository extends JpaRepository<Film, Integer> {
             "ON film.film_id = film_category.film_id\n" +
             "INNER JOIN category\n" +
             "ON film_category.category_id = category.category_id\n" +
+            "WHERE title LIKE '%ace%'", nativeQuery = true)
+    ArrayList<FilmDetails> searchFilm();
+
+    @Query(value = "SELECT film.film_id, film.title, film.description, film.release_year, film.customer_rating, category.name\n" +
+            "FROM film\n" +
+            "INNER JOIN film_category\n" +
+            "ON film.film_id = film_category.film_id\n" +
+            "INNER JOIN category\n" +
+            "ON film_category.category_id = category.category_id\n" +
             "WHERE category.name = :category ", nativeQuery = true)
     ArrayList<FilmDetails> searchCategory(@Param("category") String category);
 

@@ -53,6 +53,12 @@ public class DemoApplication {
 		return filmRepo.mostRecent();
 	}
 
+	@GetMapping("search_films")
+	public @ResponseBody
+	ArrayList<FilmDetails> search_films(){
+		return filmRepo.searchFilm();
+	}
+
 	@GetMapping("/get_film/{filmID}")
 	public @ResponseBody
 	Film getFilmByID(@PathVariable("filmID") int filmID){
