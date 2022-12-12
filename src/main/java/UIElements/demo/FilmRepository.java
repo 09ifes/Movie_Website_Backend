@@ -8,22 +8,40 @@ import java.util.List;
 
 public interface FilmRepository extends JpaRepository<Film, Integer> {
 
-    @Query(value = "SELECT film.title, film_category.category_id, category.name\n" +
+    @Query(value = "SELECT film.film_id, film.title, film.description, film.release_year, film.customer_rating, category.name, film.rating\n" +
             "FROM film\n" +
             "INNER JOIN film_category\n" +
             "ON film.film_id = film_category.film_id\n" +
             "INNER JOIN category\n" +
             "ON film_category.category_id = category.category_id", nativeQuery = true)
-    ArrayList<FilmCatIntf> findAllFilms();
+    ArrayList<FilmDetails> findAllFilms();
 
-    @Query(value = "SELECT film.title, film_category.category_id, category.name\n" +
+    @Query(value = "SELECT film.film_id, film.title, film.description, film.release_year, film.customer_rating, category.name\n" +
+            "FROM film\n" +
+            "INNER JOIN film_category\n" +
+            "ON film.film_id = film_category.film_id\n" +
+            "INNER JOIN category\n" +
+            "ON film_category.category_id = category.category_id\n" +
+            "ORDER BY film.customer_rating DESC", nativeQuery = true)
+    ArrayList<FilmDetails> mostPopular();
+
+    @Query(value = "SELECT film.film_id, film.title, film.description, film.release_year, film.customer_rating, category.name\n" +
+            "FROM film\n" +
+            "INNER JOIN film_category\n" +
+            "ON film.film_id = film_category.film_id\n" +
+            "INNER JOIN category\n" +
+            "ON film_category.category_id = category.category_id\n" +
+            "ORDER BY film.release_year DESC", nativeQuery = true)
+    ArrayList<FilmDetails> mostRecent();
+
+    @Query(value = "SELECT film.film_id, film.title, film.description, film.release_year, film.customer_rating, category.name\n" +
             "FROM film\n" +
             "INNER JOIN film_category\n" +
             "ON film.film_id = film_category.film_id\n" +
             "INNER JOIN category\n" +
             "ON film_category.category_id = category.category_id\n" +
             "WHERE category.name = :category ", nativeQuery = true)
-    ArrayList<FilmCatIntf> searchCategory(@Param("category") String category);
+    ArrayList<FilmDetails> searchCategory(@Param("category") String category);
 
     @Query(value = "SELECT actor.first_name, actor.last_name, film.title\n" +
             "FROM actor\n" +
@@ -34,7 +52,7 @@ public interface FilmRepository extends JpaRepository<Film, Integer> {
             "WHERE film_actor.film_id = :filmID", nativeQuery = true)
     ArrayList<FilmActorIntf> film_all_actors(@Param("filmID") int filmID);
 
-    @Query(value = "SELECT film.film_id, film.title, film.description, category.name\n" +
+    @Query(value = "SELECT film.film_id, film.title, film.description, film.release_year, film.customer_rating, category.name\n" +
             "FROM film\n" +
             "INNER JOIN film_category\n" +
             "ON film.film_id = film_category.film_id\n" +
@@ -45,7 +63,7 @@ public interface FilmRepository extends JpaRepository<Film, Integer> {
 
     // checks actors in a film, checks all the films the actors has been in,
     // filters out films that have same category as the specified film
-    @Query(value = "SELECT film.film_id, film.title, film.description, category.name, film.release_year, film.rating, " +
+    @Query(value = "SELECT film.film_id, film.title, film.description, film.release_year, film.customer_rating, category.name " +
             "film.customer_rating \n" +
             "FROM film_actor\n" +
             "INNER JOIN film\n" +

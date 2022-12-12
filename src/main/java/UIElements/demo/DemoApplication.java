@@ -35,6 +35,23 @@ public class DemoApplication {
 
 
 	//public @ResponseBody
+	@GetMapping("/all_films")
+	public @ResponseBody
+	ArrayList<FilmDetails> all_films(){
+		ArrayList<FilmDetails> allFilms = filmRepo.findAllFilms();
+		return allFilms;
+	}
+	@GetMapping("/most_popular")
+	public @ResponseBody
+	ArrayList<FilmDetails> most_popular(){
+		return filmRepo.mostPopular();
+	}
+
+	@GetMapping("/most_recent")
+	public @ResponseBody
+	ArrayList<FilmDetails> most_recent(){
+		return filmRepo.mostRecent();
+	}
 
 	@GetMapping("/get_film/{filmID}")
 	public @ResponseBody
@@ -76,18 +93,11 @@ public class DemoApplication {
 		filmRepo.deleteById(filmID);
 	}
 
-	@GetMapping("/all_films")
-	public @ResponseBody
-	ArrayList<FilmCatIntf> all_films(){
-		ArrayList<FilmCatIntf> allFilms = filmRepo.findAllFilms();
 
-
-		return allFilms;
-	}
 
 	@GetMapping("/all_films/{category}")
 	public @ResponseBody
-	ArrayList<FilmCatIntf> search_category(@PathVariable("category") String category){
+	ArrayList<FilmDetails> search_category(@PathVariable("category") String category){
 		return filmRepo.searchCategory(category);
 	}
 
@@ -111,7 +121,7 @@ public class DemoApplication {
 		return filmRepo.similar_films(filmID);
 	}
 
-	//@GetMapping
+
 
 
 }
