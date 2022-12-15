@@ -67,6 +67,11 @@ public class DemoApplication {
 		return film;
 	}
 
+	@PostMapping("/add_film")
+	Film newFilm(@RequestBody Film newFilm){
+		return filmRepo.save(newFilm);
+	}
+
 	@PutMapping("/edit_film/{filmID}")
 	Film editFilmByID(@RequestBody Film newFilm, @PathVariable("filmID") int filmID){
 		 Film film = filmRepo.findById(filmID).map(film1 -> {
@@ -81,25 +86,10 @@ public class DemoApplication {
 		return film;
 	}
 
-	@GetMapping("/all_actors/{actorID}")
-	public @ResponseBody
-	Actor all_actors(@PathVariable("actorID") int actorID){
-		Actor actor = actorRepo.findById(actorID).
-				orElseThrow(() -> new ResourceAccessException("Actor ID doesn't exist: " + actorID));
-		return actor;
-	}
-
-	@PostMapping("/add_film")
-	Film newFilm(@RequestBody Film newFilm){
-		return filmRepo.save(newFilm);
-	}
-
-	@DeleteMapping("/delete_actor/{filmID}")
+	@DeleteMapping("/delete_film/{filmID}")
 	void deleteFilm(@PathVariable("filmID") int filmID){
 		filmRepo.deleteById(filmID);
 	}
-
-
 
 	@GetMapping("/all_films/{category}")
 	public @ResponseBody
@@ -126,6 +116,37 @@ public class DemoApplication {
 	ArrayList<FilmDetails> similar_films(@PathVariable("filmID") int filmID){
 		return filmRepo.similar_films(filmID);
 	}
+
+
+	@GetMapping("/actor/{actorID}")
+	public @ResponseBody
+	Actor find_actor(@PathVariable("actorID") int actorID){
+		Actor actor = actorRepo.findById(actorID).
+				orElseThrow(() -> new ResourceAccessException("Actor ID doesn't exist: " + actorID));
+		return actor;
+	}
+
+	@PostMapping("/add_actor")
+	Actor newActor(@RequestBody Actor newActor) {
+		return actorRepo.save(newActor);
+	}
+
+	@PutMapping("/edit_actor/{actorID}")
+	Actor editActor(@RequestBody Actor newActor, @PathVariable("actorID") int actorID){
+		Actor actor = actorRepo.findById(actorID).map(actor1 -> {
+			actor1.setFirstName(newActor.getFirstName());
+			actor1.setLastName(newActor.getLastName());
+			return actorRepo.save(actor1);
+
+		}).orElseGet(() -> {
+			newActor.setActorID(actorID);
+			return actorRepo.save(newActor);
+		});
+		return actor;
+	}
+
+
+
 
 
 
