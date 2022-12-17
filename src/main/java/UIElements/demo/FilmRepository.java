@@ -8,7 +8,8 @@ import java.util.List;
 
 public interface FilmRepository extends JpaRepository<Film, Integer> {
 
-    @Query(value = "SELECT film.film_id, film.title, film.description, film.release_year, film.customer_rating, category.name, film.rating\n" +
+    @Query(value = "SELECT film.film_id, film.title, film.description, film.release_year, film.customer_rating," +
+            " category.name, film.rating, film.img_url, film.video_url \n" +
             "FROM film\n" +
             "INNER JOIN film_category\n" +
             "ON film.film_id = film_category.film_id\n" +
@@ -16,7 +17,8 @@ public interface FilmRepository extends JpaRepository<Film, Integer> {
             "ON film_category.category_id = category.category_id", nativeQuery = true)
     ArrayList<FilmDetails> findAllFilms();
 
-    @Query(value = "SELECT film.film_id, film.title, film.description, film.release_year, film.customer_rating, category.name\n" +
+    @Query(value = "SELECT film.film_id, film.title, film.description, film.release_year, film.customer_rating," +
+            " category.name, film.rating, film.img_url, film.video_url \n" +
             "FROM film\n" +
             "INNER JOIN film_category\n" +
             "ON film.film_id = film_category.film_id\n" +
@@ -25,7 +27,8 @@ public interface FilmRepository extends JpaRepository<Film, Integer> {
             "ORDER BY film.customer_rating DESC", nativeQuery = true)
     ArrayList<FilmDetails> mostPopular();
 
-    @Query(value = "SELECT film.film_id, film.title, film.description, film.release_year, film.customer_rating, category.name\n" +
+    @Query(value = "SELECT film.film_id, film.title, film.description, film.release_year, film.customer_rating," +
+            " category.name, film.rating, film.img_url, film.video_url \n" +
             "FROM film\n" +
             "INNER JOIN film_category\n" +
             "ON film.film_id = film_category.film_id\n" +
@@ -34,7 +37,8 @@ public interface FilmRepository extends JpaRepository<Film, Integer> {
             "ORDER BY film.release_year DESC", nativeQuery = true)
     ArrayList<FilmDetails> mostRecent();
 
-    @Query(value = "SELECT film.film_id, film.title, film.description, film.release_year, film.customer_rating, category.name\n" +
+    @Query(value = "SELECT film.film_id, film.title, film.description, film.release_year, film.customer_rating," +
+            " category.name, film.rating, film.img_url, film.video_url \n" +
             "FROM film\n" +
             "INNER JOIN film_category\n" +
             "ON film.film_id = film_category.film_id\n" +
@@ -43,7 +47,8 @@ public interface FilmRepository extends JpaRepository<Film, Integer> {
             "WHERE title LIKE '%ace%'", nativeQuery = true)
     ArrayList<FilmDetails> searchFilm();
 
-    @Query(value = "SELECT film.film_id, film.title, film.description, film.release_year, film.customer_rating, category.name\n" +
+    @Query(value = "SELECT film.film_id, film.title, film.description, film.release_year, film.customer_rating," +
+            " category.name, film.rating, film.img_url, film.video_url \n" +
             "FROM film\n" +
             "INNER JOIN film_category\n" +
             "ON film.film_id = film_category.film_id\n" +
@@ -61,7 +66,8 @@ public interface FilmRepository extends JpaRepository<Film, Integer> {
             "WHERE film_actor.film_id = :filmID", nativeQuery = true)
     ArrayList<FilmActorIntf> film_all_actors(@Param("filmID") int filmID);
 
-    @Query(value = "SELECT film.film_id, film.title, film.description, film.release_year, film.customer_rating, category.name\n" +
+    @Query(value = "SELECT film.film_id, film.title, film.description, film.release_year, film.customer_rating," +
+            " category.name, film.rating, film.img_url, film.video_url \n" +
             "FROM film\n" +
             "INNER JOIN film_category\n" +
             "ON film.film_id = film_category.film_id\n" +
@@ -72,7 +78,8 @@ public interface FilmRepository extends JpaRepository<Film, Integer> {
 
     // checks actors in a film, checks all the films the actors has been in,
     // filters out films that have same category as the specified film
-    @Query(value = "SELECT film.film_id, film.title, film.description, film.release_year, film.customer_rating, category.name " +
+    @Query(value = "SELECT film.film_id, film.title, film.description, film.release_year, film.customer_rating," +
+            " category.name, film.rating, film.img_url, film.video_url \n" +
             "film.customer_rating \n" +
             "FROM film_actor\n" +
             "INNER JOIN film\n" +

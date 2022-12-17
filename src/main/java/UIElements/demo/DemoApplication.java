@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 @SpringBootApplication
 @Controller
-@RequestMapping("/home")
+@RequestMapping("/")
 @CrossOrigin
 public class DemoApplication {
 
@@ -55,7 +55,7 @@ public class DemoApplication {
 
 	@GetMapping("search_films")
 	public @ResponseBody
-	ArrayList<FilmDetails> search_films(){
+	ArrayList<FilmDetails> search_films(@RequestBody String film_name){
 		return filmRepo.searchFilm();
 	}
 

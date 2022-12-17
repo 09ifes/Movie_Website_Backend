@@ -6,9 +6,9 @@ public interface FilmDetails {
     String getdescription();
     int getrelease_year();
     float getcustomer_rating();
-
-
     String getname();  //category name
+    String getimg_url();
+    String getvideo_url();
 
 
 }
