@@ -78,21 +78,21 @@ public interface FilmRepository extends JpaRepository<Film, Integer> {
 
     // checks actors in a film, checks all the films the actors has been in,
     // filters out films that have same category as the specified film
-    @Query(value = "SELECT film.film_id, film.title, film.description, film.release_year, film.customer_rating," +
+    @Query(value = "SELECT film.film_id, film.title, film.description, film.release_year, film.customer_rating, " +
             " category.name, film.rating, film.img_url, film.video_url \n" +
-            "film.customer_rating \n" +
-            "FROM film_actor\n" +
-            "INNER JOIN film\n" +
-            "ON film_actor.film_id = film.film_id\n" +
-            "INNER JOIN film_category\n" +
-            "ON film.film_id = film_category.film_id\n" +
-            "INNER JOIN category\n" +
-            "ON film_category.category_id = category.category_id\n" +
-            "WHERE actor_id IN\n" +
-            "(SELECT actor_id FROM sakila.film_actor\n" +
-            "WHERE film_id = :filmID)\n" +
-            "AND category.name = \"Action\"\n" +
-            "GROUP BY film_id; ", nativeQuery = true)
+            "FROM film_actor\n " +
+            "INNER JOIN film\n " +
+            "ON film_actor.film_id = film.film_id\n " +
+            "INNER JOIN film_category\n " +
+            "ON film.film_id = film_category.film_id\n " +
+            "INNER JOIN category\n " +
+            "ON film_category.category_id = category.category_id\n " +
+            "WHERE actor_id IN\n " +
+            "(SELECT actor_id FROM sakila.film_actor\n " +
+            "WHERE film_id = :filmID)\n " +
+            "AND category.name = 'Action' \n " +
+            "GROUP BY film_id \n" +
+            "ORDER BY film_id ASC; ", nativeQuery = true)
     ArrayList<FilmDetails> similar_films(@Param("filmID") int filmID);
 
 }
