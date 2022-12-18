@@ -114,7 +114,9 @@ public class DemoApplication {
 	@GetMapping("/view_film/{filmID}/similar_films")
 	public @ResponseBody
 	ArrayList<FilmDetails> similar_films(@PathVariable("filmID") int filmID){
-		return filmRepo.similar_films(filmID);
+		ArrayList<FilmDetails> film = filmRepo.view_film(filmID);
+		String catName = film.get(0).getname();
+		return filmRepo.similar_films(filmID, catName);
 	}
 
 

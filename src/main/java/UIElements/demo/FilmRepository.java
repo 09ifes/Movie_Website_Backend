@@ -90,10 +90,11 @@ public interface FilmRepository extends JpaRepository<Film, Integer> {
             "WHERE actor_id IN\n " +
             "(SELECT actor_id FROM sakila.film_actor\n " +
             "WHERE film_id = :filmID)\n " +
-            "AND category.name = 'Action' \n " +
+            "AND category.name = :catName \n " +
             "GROUP BY film_id \n" +
-            "ORDER BY film_id ASC; ", nativeQuery = true)
-    ArrayList<FilmDetails> similar_films(@Param("filmID") int filmID);
+            "ORDER BY film_id ASC \n" +
+            "LIMIT 20;", nativeQuery = true)
+    ArrayList<FilmDetails> similar_films(@Param("filmID") int filmID, @Param("catName") String catName);
 
 }
 
