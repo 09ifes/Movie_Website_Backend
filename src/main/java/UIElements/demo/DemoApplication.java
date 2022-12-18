@@ -1,12 +1,15 @@
 package UIElements.demo;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.ResourceAccessException;
-
+import org.json.JSONObject;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.ObjectWriter;
 import java.util.ArrayList;
 
 @SpringBootApplication
@@ -55,8 +58,13 @@ public class DemoApplication {
 
 	@GetMapping("search_films")
 	public @ResponseBody
-	ArrayList<FilmDetails> search_films(@RequestBody String film_name){
-		return filmRepo.searchFilm();
+	ArrayList<FilmDetails> search_films(@RequestBody Object data) throws JsonProcessingException {
+		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+		String json = ow.writeValueAsString(data);
+		String[] arrOfStr = json.split("\"", 0);
+		String title = arrOfStr[3];
+		String sqlVariable = "%" + title + "%";
+		return filmRepo.searchFilm(sqlVariable);
 	}
 
 	@GetMapping("/get_film/{filmID}")
