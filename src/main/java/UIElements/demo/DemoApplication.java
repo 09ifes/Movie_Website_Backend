@@ -64,8 +64,6 @@ public class DemoApplication {
 		String json = (String) data;
 		String[] arrOfStr = json.split("\"", 0);
 		String title = arrOfStr[3];
-		//System.out.println(data);
-		System.out.println(title);
 		String sqlVariable = "%" + title + "%";
 		return filmRepo.searchFilm(sqlVariable);
 	}
