@@ -56,13 +56,16 @@ public class DemoApplication {
 		return filmRepo.mostRecent();
 	}
 
-	@GetMapping("search_films")
+	@PostMapping("/search_films")
 	public @ResponseBody
 	ArrayList<FilmDetails> search_films(@RequestBody Object data) throws JsonProcessingException {
-		ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-		String json = ow.writeValueAsString(data);
+		//ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+		//String json = ow.writeValueAsString(data);
+		String json = (String) data;
 		String[] arrOfStr = json.split("\"", 0);
 		String title = arrOfStr[3];
+		//System.out.println(data);
+		System.out.println(title);
 		String sqlVariable = "%" + title + "%";
 		return filmRepo.searchFilm(sqlVariable);
 	}
