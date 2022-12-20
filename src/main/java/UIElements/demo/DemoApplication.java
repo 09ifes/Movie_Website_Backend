@@ -13,7 +13,7 @@ import com.fasterxml.jackson.databind.ObjectWriter;
 import java.util.ArrayList;
 
 @SpringBootApplication
-@Controller
+@RestController
 @RequestMapping("/")
 @CrossOrigin
 public class DemoApplication {
@@ -61,9 +61,9 @@ public class DemoApplication {
 	ArrayList<FilmDetails> search_films(@RequestBody Object data) throws JsonProcessingException {
 		//ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
 		//String json = ow.writeValueAsString(data);
-		String json = (String) data;
-		String[] arrOfStr = json.split("\"", 0);
-		String title = arrOfStr[3];
+		//String json = (String) data;
+		//String[] arrOfStr = json.split("\"", 0);
+		//String title = arrOfStr[3];
 		String sqlVariable = "%" + title + "%";
 		return filmRepo.searchFilm(sqlVariable);
 	}
@@ -138,8 +138,9 @@ public class DemoApplication {
 	}
 
 	@PostMapping("/add_actor")
-	Actor newActor(@RequestBody Actor newActor) {
-		return actorRepo.save(newActor);
+	public @ResponseBody Actor addActor(@RequestBody Actor newActor) {
+		Actor actor1 = actorRepo.save(newActor);
+		return actor1;
 	}
 
 	@PutMapping("/edit_actor/{actorID}")
@@ -156,6 +157,10 @@ public class DemoApplication {
 		return actor;
 	}
 
+	@DeleteMapping("/delete_actor/{actorID}")
+	void deleteActor(@PathVariable("actorID") int actorID){
+		actorRepo.deleteById(actorID);
+	}
 
 
 

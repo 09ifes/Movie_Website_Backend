@@ -10,7 +10,7 @@ import java.util.List;
 public class Film {
     @Id
     @Column(name="film_id")
-    //@GeneratedValue(strategy=GenerationType.IDENTITY )
+    @GeneratedValue(strategy=GenerationType.IDENTITY )
     private int filmID;
 
     @Column(name="title")
