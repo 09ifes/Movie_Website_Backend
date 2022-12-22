@@ -29,7 +29,7 @@ public class ActorTests {
         String lastName = "lastName";
         Actor actor = new Actor();
         actor.setLastName(lastName);
-        Assertions.assertEquals(lastName, actor.getFirstName(), "Actor last name should be: " + lastName);
+        Assertions.assertEquals(lastName, actor.getLastName(), "Actor last name should be: " + lastName);
     }
 
 
