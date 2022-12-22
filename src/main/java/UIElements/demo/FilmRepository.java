@@ -1,7 +1,9 @@
 package UIElements.demo;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -95,6 +97,30 @@ public interface FilmRepository extends JpaRepository<Film, Integer> {
             "ORDER BY film_id ASC \n" +
             "LIMIT 20;", nativeQuery = true)
     ArrayList<FilmDetails> similar_films(@Param("filmID") int filmID, @Param("catName") String catName);
+
+
+    @Transactional
+    @Modifying
+    @Query(value = "INSERT INTO sakila.film (title, description, img_url, video_url) \n" +
+            " VALUES(:title, :description, :img_url, :vid_url) ;", nativeQuery = true)
+    void add_film(@Param("title") String title, @Param("description") String description,
+                  @Param("img_url") String img_url, @Param("vid_url") String vid_url);
+
+    @Transactional
+    @Modifying
+    @Query(value = "UPDATE sakila.film\n " +
+            "SET title = :title, description = :description, img_url = :img_url, video_url = :vid_url " +
+            "WHERE film_id = :filmID ; ", nativeQuery = true )
+    void edit_film(@Param("title") String title, @Param("description") String description,
+                   @Param("img_url") String img_url, @Param("vid_url") String vid_url, @Param("filmID") int filmID);
+
+
+
+
+
+
+
+
 
 }
 

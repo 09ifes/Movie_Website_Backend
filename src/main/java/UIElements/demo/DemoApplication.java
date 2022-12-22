@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.ResourceAccessException;
@@ -59,11 +60,9 @@ public class DemoApplication {
 	@PostMapping("/search_films")
 	public @ResponseBody
 	ArrayList<FilmDetails> search_films(@RequestBody Object data) throws JsonProcessingException {
-		//ObjectWriter ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
-		//String json = ow.writeValueAsString(data);
-		//String json = (String) data;
-		//String[] arrOfStr = json.split("\"", 0);
-		//String title = arrOfStr[3];
+		String json = (String) data;
+		JSONObject jsonObject1 = new JSONObject(json);
+		String title = (String) jsonObject1.get("title");
 		String sqlVariable = "%" + title + "%";
 		return filmRepo.searchFilm(sqlVariable);
 	}
@@ -74,30 +73,6 @@ public class DemoApplication {
 		Film film = filmRepo.findById(filmID).
 				orElseThrow(() -> new ResourceAccessException("Film ID doesn't exist: " + filmID));
 		return film;
-	}
-
-	@PostMapping("/add_film")
-	Film newFilm(@RequestBody Film newFilm){
-		return filmRepo.save(newFilm);
-	}
-
-	@PutMapping("/edit_film/{filmID}")
-	Film editFilmByID(@RequestBody Film newFilm, @PathVariable("filmID") int filmID){
-		 Film film = filmRepo.findById(filmID).map(film1 -> {
-			film1.setTitle(newFilm.getTitle());
-			film1.setDescription(newFilm.getDescription());
-			return filmRepo.save(film1);
-
-		}).orElseGet(() -> {
-			newFilm.setFilmID(filmID);
-			return filmRepo.save(newFilm);
-		 });
-		return film;
-	}
-
-	@DeleteMapping("/delete_film/{filmID}")
-	void deleteFilm(@PathVariable("filmID") int filmID){
-		filmRepo.deleteById(filmID);
 	}
 
 	@GetMapping("/all_films/{category}")
@@ -127,6 +102,40 @@ public class DemoApplication {
 		String catName = film.get(0).getname();
 		return filmRepo.similar_films(filmID, catName);
 	}
+	
+	@PostMapping("/add_film")
+	void newFilm(@RequestBody Object data){
+		System.out.println(data);
+		String json = (String) data;
+		JSONObject jsonObject1 = new JSONObject(json);
+
+		String title = (String) jsonObject1.get("title");
+		String description = (String) jsonObject1.get("description");
+		String img_url = (String) jsonObject1.get("img_url");
+		String vid_url = (String) jsonObject1.get("vid_url");
+		filmRepo.add_film(title, description, img_url, vid_url);
+	}
+
+	@PutMapping("/edit_film/{filmID}")
+	void editFilmByID(@RequestBody Object data, @PathVariable("filmID") int filmID){
+		System.out.println(data);
+		String json = (String) data;
+		JSONObject jsonObject1 = new JSONObject(json);
+
+		String title = (String) jsonObject1.get("title");
+		String description = (String) jsonObject1.get("description");
+		String img_url = (String) jsonObject1.get("img_url");
+		String vid_url = (String) jsonObject1.get("vid_url");
+		filmRepo.edit_film(title, description, img_url, vid_url, filmID);
+
+
+	}
+
+	@DeleteMapping("/delete_film/{filmID}")
+	void deleteFilm(@PathVariable("filmID") int filmID){
+		filmRepo.deleteById(filmID);
+	}
+
 
 
 	@GetMapping("/actor/{actorID}")
