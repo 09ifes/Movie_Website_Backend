@@ -28,7 +28,7 @@ public class ActorTests {
     public void getSetLastName(){
         String lastName = "lastName";
         Actor actor = new Actor();
-        actor.setFirstName(lastName);
+        actor.setLastName(lastName);
         Assertions.assertEquals(lastName, actor.getFirstName(), "Actor last name should be: " + lastName);
     }
 
