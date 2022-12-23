@@ -12,10 +12,8 @@ import org.springframework.web.client.ResourceAccessException;
 public class ShowSingleActorStepsDef {
     @Autowired
     ActorRepository actorRepo;
-
     int actorID;
     Actor actor;
-
     @Given("an actor exists with id {int}")
     public void an_actor_exists_with_id(int id){
         actorID = id;

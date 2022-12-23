@@ -4,13 +4,9 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.ResourceAccessException;
 import org.json.JSONObject;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.ObjectWriter;
 import java.util.ArrayList;
 
 @SpringBootApplication
@@ -85,7 +81,9 @@ public class DemoApplication {
 	@GetMapping("/view_film/{filmID}")
 	public @ResponseBody
 	ArrayList<FilmDetails> view_film(@PathVariable("filmID") int filmID){
-		return filmRepo.view_film(filmID);
+		ArrayList<FilmDetails> film = filmRepo.view_film(filmID);
+		System.out.println(film.get(0));
+		return film;
 	}
 
 	// all actors in a given film

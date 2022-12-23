@@ -6,7 +6,6 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public interface FilmRepository extends JpaRepository<Film, Integer> {
 

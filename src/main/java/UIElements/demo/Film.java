@@ -1,9 +1,9 @@
 package UIElements.demo;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
+
 
 import jakarta.persistence.*;
 
-import java.util.List;
+
 
 @Entity
 @Table(name="film")
