@@ -59,7 +59,7 @@ public class DemoApplication {
 		String json = (String) data;
 		JSONObject jsonObject1 = new JSONObject(json);
 		String title = (String) jsonObject1.get("title");
-		String sqlVariable = "%" + title + "%";
+		String sqlVariable = "%" + title + "%";  // converts to correct sql syntax
 		return filmRepo.searchFilm(sqlVariable);
 	}
 
@@ -82,9 +82,9 @@ public class DemoApplication {
 	public @ResponseBody
 	ArrayList<FilmDetails> view_film(@PathVariable("filmID") int filmID){
 		ArrayList<FilmDetails> film = filmRepo.view_film(filmID);
-		System.out.println(film.get(0));
 		return film;
 	}
+
 
 	// all actors in a given film
 	@GetMapping("/view_film/{filmID}/all_actors")
@@ -93,6 +93,7 @@ public class DemoApplication {
 		return filmRepo.film_all_actors(filmID);
 	}
 
+
 	@GetMapping("/view_film/{filmID}/similar_films")
 	public @ResponseBody
 	ArrayList<FilmDetails> similar_films(@PathVariable("filmID") int filmID){
@@ -100,7 +101,8 @@ public class DemoApplication {
 		String catName = film.get(0).getname();
 		return filmRepo.similar_films(filmID, catName);
 	}
-	
+
+
 	@PostMapping("/add_film")
 	void newFilm(@RequestBody Object data){
 		System.out.println(data);
@@ -114,6 +116,7 @@ public class DemoApplication {
 		filmRepo.add_film(title, description, img_url, vid_url);
 	}
 
+
 	@PutMapping("/edit_film/{filmID}")
 	void editFilmByID(@RequestBody Object data, @PathVariable("filmID") int filmID){
 		System.out.println(data);
@@ -125,15 +128,13 @@ public class DemoApplication {
 		String img_url = (String) jsonObject1.get("img_url");
 		String vid_url = (String) jsonObject1.get("vid_url");
 		filmRepo.edit_film(title, description, img_url, vid_url, filmID);
-
-
 	}
+
 
 	@DeleteMapping("/delete_film/{filmID}")
 	void deleteFilm(@PathVariable("filmID") int filmID){
 		filmRepo.deleteById(filmID);
 	}
-
 
 
 	@GetMapping("/actor/{actorID}")
@@ -144,11 +145,13 @@ public class DemoApplication {
 		return actor;
 	}
 
+
 	@PostMapping("/add_actor")
 	public @ResponseBody Actor addActor(@RequestBody Actor newActor) {
 		Actor actor1 = actorRepo.save(newActor);
 		return actor1;
 	}
+
 
 	@PutMapping("/edit_actor/{actorID}")
 	Actor editActor(@RequestBody Actor newActor, @PathVariable("actorID") int actorID){
@@ -156,13 +159,13 @@ public class DemoApplication {
 			actor1.setFirstName(newActor.getFirstName());
 			actor1.setLastName(newActor.getLastName());
 			return actorRepo.save(actor1);
-
 		}).orElseGet(() -> {
 			newActor.setActorID(actorID);
 			return actorRepo.save(newActor);
 		});
 		return actor;
 	}
+
 
 	@DeleteMapping("/delete_actor/{actorID}")
 	void deleteActor(@PathVariable("actorID") int actorID){
